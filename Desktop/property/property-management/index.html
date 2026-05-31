@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a2744">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>PropManager — Properties</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#1a2744; --navy-light:#243460; --gold:#c9a84c; --gold-light:#e8c96a;
+  --cream:#f8f5ef; --white:#ffffff; --gray-100:#f1ede6; --gray-200:#e0d9ce;
+  --gray-400:#a09880; --gray-600:#6b6355; --green:#2d7d52; --green-light:#e8f5ee;
+  --red:#c0392b; --red-light:#fdecea;
+  --shadow-sm:0 2px 8px rgba(26,39,68,.08); --shadow-md:0 4px 20px rgba(26,39,68,.12);
+  --shadow-lg:0 8px 40px rgba(26,39,68,.18); --radius:16px; --radius-sm:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--navy);overflow-x:hidden}
+
+.home-header{background:linear-gradient(145deg,var(--navy) 0%,var(--navy-light) 100%);padding:54px 20px 28px;position:relative;overflow:hidden}
+.home-header::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(201,168,76,.12);pointer-events:none}
+.home-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.home-logo-icon{width:40px;height:40px;background:var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.home-logo-icon svg{width:22px;height:22px;color:var(--navy)}
+.home-logo h1{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--white)}
+.home-logo span{color:var(--gold)}
+.home-tagline{color:rgba(255,255,255,.5);font-size:.8rem;font-weight:300}
+
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px;margin-top:-4px}
+.stat-card{background:var(--white);border-radius:var(--radius);padding:18px 16px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:4px;border-left:4px solid transparent}
+.stat-card.total{border-left-color:var(--gold)}
+.stat-card.available{border-left-color:var(--green)}
+.stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--navy)}
+.stat-label{font-size:.72rem;color:var(--gray-400);font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+
+.search-wrap{padding:0 20px;margin-bottom:14px}
+.search-box{background:var(--white);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px;padding:12px 16px;box-shadow:var(--shadow-sm);border:2px solid transparent;transition:border-color .2s}
+.search-box:focus-within{border-color:var(--gold)}
+.search-box svg{width:18px;height:18px;color:var(--gray-400);flex-shrink:0}
+.search-box input{flex:1;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:.9rem;background:transparent;color:var(--navy)}
+.search-box input::placeholder{color:var(--gray-400)}
+
+.filter-row{display:flex;gap:8px;overflow-x:auto;padding:0 20px 4px;scrollbar-width:none;margin-bottom:14px}
+.filter-row::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;background:var(--white);border:1.5px solid var(--gray-200);border-radius:20px;padding:7px 14px;font-size:.78rem;font-weight:500;color:var(--gray-600);cursor:pointer;transition:all .2s;white-space:nowrap}
+.chip.active{background:var(--navy);border-color:var(--navy);color:var(--white)}
+
+.section-header{display:flex;align-items:center;justify-content:space-between;padding:0 20px;margin:0 0 12px}
+.section-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--navy)}
+.result-count{font-size:.75rem;color:var(--gray-400)}
+
+.properties-list{padding:0 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px}
+
+.prop-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .15s,box-shadow .15s;border:1.5px solid transparent}
+.prop-card:active{transform:scale(.98);box-shadow:var(--shadow-md)}
+.prop-card-img-wrap{width:100%;height:210px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--gray-100),var(--gray-200))}
+.prop-card-img-wrap img{width:100%;height:100%;object-fit:cover}
+.prop-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.prop-img-placeholder svg{width:48px;height:48px;color:var(--gray-400)}
+.img-counter{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.5);color:white;border-radius:20px;padding:3px 10px;font-size:.7rem;font-weight:600}
+.prop-status-badge{position:absolute;top:12px;right:12px;padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.badge-available{background:var(--green);color:var(--white)}
+.badge-sold{background:var(--red);color:var(--white)}
+.prop-card-body{padding:14px 16px 16px}
+.prop-card-society{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:8px}
+.prop-meta-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.prop-meta-pill{background:var(--gray-100);border-radius:6px;padding:4px 10px;font-size:.72rem;color:var(--gray-600);font-weight:500}
+.prop-price{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:10px}
+.prop-notes{font-size:.82rem;color:var(--gray-600);line-height:1.5;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prop-contact-bar{display:flex;align-items:center;gap:10px;background:var(--gray-100);border-radius:10px;padding:10px 12px}
+.prop-contact-num{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;color:var(--navy);flex:1}
+.call-btn{background:var(--green);color:var(--white);border:none;border-radius:8px;padding:9px 18px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;text-decoration:none;display:inline-block}
+.whatsapp-btn{background:#25D366;color:var(--white);border:none;border-radius:8px;padding:9px 14px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;text-decoration:none;display:inline-block}
+
+/* Image viewer */
+.viewer{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center}
+.viewer.open{display:flex}
+.viewer img{max-width:100%;max-height:82vh;object-fit:contain;border-radius:8px}
+.viewer-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.15);border:none;color:white;border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.viewer-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:white;border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.viewer-nav.prev{left:10px}
+.viewer-nav.next{right:10px}
+.viewer-counter{position:absolute;bottom:24px;color:rgba(255,255,255,.7);font-size:.82rem}
+
+.empty-state{text-align:center;padding:60px 30px;color:var(--gray-400)}
+.empty-state svg{width:72px;height:72px;margin-bottom:16px;opacity:.35}
+.empty-state h3{font-family:'Syne',sans-serif;font-size:1.1rem;color:var(--navy);margin-bottom:6px}
+.empty-state p{font-size:.85rem;line-height:1.5}
+
+.loading-spinner{text-align:center;padding:60px 30px}
+.spinner{width:36px;height:36px;border:3px solid var(--gray-200);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="home-header">
+  <div class="home-logo">
+    <div class="home-logo-icon">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+    </div>
+    <div>
+      <h1>Prop<span>Manager</span></h1>
+    </div>
+  </div>
+  <div class="home-tagline">Find your perfect property</div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-card total"><div class="stat-num" id="st-total">—</div><div class="stat-label">Total Listings</div></div>
+  <div class="stat-card available"><div class="stat-num" id="st-avail">—</div><div class="stat-label">Available</div></div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="search-input" placeholder="Search by society, block, size…" oninput="renderList()">
+  </div>
+</div>
+
+<div class="filter-row" id="filter-chips">
+  <div class="chip active" data-f="all" onclick="setFilter('all')">All</div>
+  <div class="chip" data-f="Available" onclick="setFilter('Available')">Available</div>
+  <div class="chip" data-f="Sold" onclick="setFilter('Sold')">Sold</div>
+</div>
+
+<div class="section-header">
+  <div class="section-title">Listings</div>
+  <div class="result-count" id="result-count"></div>
+</div>
+
+<div class="properties-list" id="properties-list">
+  <div class="loading-spinner"><div class="spinner"></div></div>
+</div>
+
+<!-- Image viewer -->
+<div class="viewer" id="viewer">
+  <img id="viewer-img" src="" alt="">
+  <button class="viewer-close" onclick="closeViewer()">✕</button>
+  <button class="viewer-nav prev" id="viewer-prev" onclick="viewerNav(-1)">‹</button>
+  <button class="viewer-nav next" id="viewer-next" onclick="viewerNav(1)">›</button>
+  <div class="viewer-counter" id="viewer-counter"></div>
+</div>
+
+<script type="module">
+// ══════════════════════════════════════════
+//  🔧 PASTE YOUR FIREBASE CONFIG HERE
+// ══════════════════════════════════════════
+const FIREBASE_CONFIG = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+// ══════════════════════════════════════════
+
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const app = initializeApp(FIREBASE_CONFIG);
+const db  = getFirestore(app);
+
+let allProps = [];
+let activeFilter = 'all';
+let viewerImgs = [];
+let viewerIdx  = 0;
+
+async function loadProperties(){
+  try {
+    const q    = query(collection(db,'properties'), orderBy('createdAt','desc'));
+    const snap = await getDocs(q);
+    allProps = snap.docs.map(d=>({ id: d.id, ...d.data() }));
+  } catch {
+    const snap = await getDocs(collection(db,'properties'));
+    allProps = snap.docs.map(d=>({ id: d.id, ...d.data() }));
+    allProps.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  }
+  // Filter out fully hidden properties
+  allProps = allProps.filter(p => !p.visibility?.propertyHidden);
+  renderList();
+  updateStats();
+}
+
+function updateStats(){
+  document.getElementById('st-total').textContent = allProps.length;
+  document.getElementById('st-avail').textContent = allProps.filter(p=>p.status==='Available').length;
+}
+
+function renderList(){
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
+  let list = allProps;
+  if(activeFilter!=='all') list = list.filter(p=>p.status===activeFilter);
+  if(q) list = list.filter(p=>
+    (p.society||'').toLowerCase().includes(q)||
+    (p.block||'').toLowerCase().includes(q)||
+    (p.size||'').toLowerCase().includes(q)||
+    (p.house||'').toLowerCase().includes(q)||
+    (p.notes||'').toLowerCase().includes(q)
+  );
+
+  document.getElementById('result-count').textContent = list.length+' properties';
+
+  const el = document.getElementById('properties-list');
+  if(!list.length){
+    el.innerHTML=`<div class="empty-state"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><h3>No listings found</h3><p>Try adjusting your search or filter.</p></div>`;
+    return;
+  }
+  el.innerHTML = list.map(p=>propCard(p)).join('');
+}
+window.renderList = renderList;
+
+function propCard(p){
+  const vis = p.visibility || {};
+  // Default all visible if no visibility set
+  const showImages  = vis.showImages  !== false;
+  const showStatus  = vis.showStatus  !== false;
+  const showBlock   = vis.showBlock   !== false;
+  const showSize    = vis.showSize    !== false;
+  const showHouse   = vis.showHouse   !== false;
+  const showPrice   = vis.showPrice   !== false;
+  const showNotes   = vis.showNotes   !== false;
+  const showContact = vis.showContact !== false;
+
+  const imgs = showImages && p.images && p.images.length ? p.images : [];
+
+  // Hero image / placeholder
+  let imgHtml = '';
+  if(imgs.length){
+    imgHtml = `<div class="prop-card-img-wrap">
+      <img src="${imgs[0]}" loading="lazy" onclick="openViewer(${JSON.stringify(imgs)},0)" style="cursor:zoom-in">
+      ${showStatus ? `<span class="prop-status-badge badge-${p.status==='Available'?'available':'sold'}">${p.status}</span>` : ''}
+      ${imgs.length>1 ? `<span class="img-counter">📷 ${imgs.length}</span>` : ''}
+    </div>`;
+  } else {
+    imgHtml = `<div class="prop-card-img-wrap">
+      <div class="prop-img-placeholder"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
+      ${showStatus ? `<span class="prop-status-badge badge-${p.status==='Available'?'available':'sold'}">${p.status}</span>` : ''}
+    </div>`;
+  }
+
+  const metas = [
+    showBlock && p.block ? `<span class="prop-meta-pill">Block ${p.block}</span>` : '',
+    showSize && p.size ? `<span class="prop-meta-pill">${p.size}</span>` : '',
+    showHouse && p.house ? `<span class="prop-meta-pill">#${p.house}</span>` : '',
+  ].join('');
+
+  const priceHtml = showPrice && p.price
+    ? `<div class="prop-price">PKR ${p.price}</div>` : '';
+
+  const notesHtml = showNotes && p.notes
+    ? `<div class="prop-notes">${p.notes}</div>` : '';
+
+  const contactHtml = showContact && p.contact
+    ? `<div class="prop-contact-bar">
+        <span class="prop-contact-num">${p.contact}</span>
+        <a class="call-btn" href="tel:${p.contact}">Call</a>
+        <a class="whatsapp-btn" href="https://wa.me/${p.contact.replace(/[^0-9]/g,'')}" target="_blank">WA</a>
+      </div>` : '';
+
+  return `<div class="prop-card">
+    ${imgHtml}
+    <div class="prop-card-body">
+      <div class="prop-card-society">${p.society||'Property Listing'}</div>
+      ${metas ? `<div class="prop-meta-row">${metas}</div>` : ''}
+      ${priceHtml}
+      ${notesHtml}
+      ${contactHtml}
+    </div>
+  </div>`;
+}
+
+// ── IMAGE VIEWER ──
+window.openViewer = function(imgs, idx){
+  viewerImgs = imgs; viewerIdx = idx;
+  updateViewer();
+  document.getElementById('viewer').classList.add('open');
+}
+function updateViewer(){
+  document.getElementById('viewer-img').src = viewerImgs[viewerIdx];
+  document.getElementById('viewer-counter').textContent = viewerImgs.length > 1 ? `${viewerIdx+1} / ${viewerImgs.length}` : '';
+  document.getElementById('viewer-prev').style.display = viewerImgs.length>1?'':'none';
+  document.getElementById('viewer-next').style.display = viewerImgs.length>1?'':'none';
+}
+window.closeViewer = function(){ document.getElementById('viewer').classList.remove('open'); }
+window.viewerNav = function(dir){
+  viewerIdx = (viewerIdx + dir + viewerImgs.length) % viewerImgs.length;
+  updateViewer();
+}
+
+// ── FILTER ──
+window.setFilter = function(val){
+  activeFilter=val;
+  document.querySelectorAll('#filter-chips .chip').forEach(c=>c.classList.toggle('active',c.dataset.f===val));
+  renderList();
+}
+
+loadProperties();
+</script>
+</body>
+</html>
