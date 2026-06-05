@@ -44,7 +44,12 @@ interface Settings {
 export default function Home() {
   const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [services, setServices] = useState<Service[]>([]);
+  const [services, setServices] = useState<Service[]>([
+    { id: 1, title: 'Shopify Development', description: 'Custom store development and setup' },
+    { id: 2, title: 'Performance Optimization', description: 'Speed and conversion optimization' },
+    { id: 3, title: 'Theme Customization', description: 'Professional theme design and coding' },
+    { id: 4, title: 'App Integration', description: 'Integrate powerful apps and tools' },
+  ]);
   const [settings, setSettings] = useState<Settings>({});
   const [loading, setLoading] = useState(true);
 
@@ -55,18 +60,31 @@ export default function Home() {
   const fetchData = async () => {
     try {
       const [portfolioRes, testimonialsRes, servicesRes, settingsRes] = await Promise.all([
-        fetch('/api/portfolio?featured=true'),
-        fetch('/api/testimonials?featured=true'),
-        fetch('/api/services'),
-        fetch('/api/settings'),
+        fetch('/api/portfolio?featured=true').catch(() => ({ ok: false })),
+        fetch('/api/testimonials?featured=true').catch(() => ({ ok: false })),
+        fetch('/api/services').catch(() => ({ ok: false })),
+        fetch('/api/settings').catch(() => ({ ok: false })),
       ]);
 
-      if (portfolioRes.ok) setPortfolioItems(await portfolioRes.json());
-      if (testimonialsRes.ok) setTestimonials(await testimonialsRes.json());
-      if (servicesRes.ok) setServices(await servicesRes.json());
-      if (settingsRes.ok) setSettings(await settingsRes.json());
+      if (portfolioRes.ok) {
+        const data = await portfolioRes.json();
+        setPortfolioItems(Array.isArray(data) ? data : []);
+      }
+      if (testimonialsRes.ok) {
+        const data = await testimonialsRes.json();
+        setTestimonials(Array.isArray(data) ? data : []);
+      }
+      if (servicesRes.ok) {
+        const data = await servicesRes.json();
+        setServices(Array.isArray(data) ? data : []);
+      }
+      if (settingsRes.ok) {
+        const data = await settingsRes.json();
+        setSettings(data || {});
+      }
     } catch (error) {
       console.error('Failed to fetch data:', error);
+      // Use default data if fetch fails
     } finally {
       setLoading(false);
     }
