@@ -13,7 +13,8 @@ html {
 }
 
 body {
-  @apply bg-dark-950 text-dark-text font-sans;
+  @apply bg-black text-white font-sans;
+  background-color: #0f0f0f;
   color-scheme: dark;
 }
 
@@ -24,7 +25,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-dark-900;
+  @apply bg-gray-900;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -80,7 +81,7 @@ button {
 }
 
 .btn-secondary {
-  @apply bg-dark-800 text-white border border-dark-700 hover:bg-dark-700;
+  @apply bg-gray-800 text-white border border-gray-700 hover:bg-gray-700;
 }
 
 .btn-outline {
@@ -89,7 +90,7 @@ button {
 
 /* Cards */
 .card {
-  @apply bg-dark-900 rounded-lg p-6 border border-dark-800 transition-all duration-300;
+  @apply bg-gray-900 rounded-lg p-6 border border-gray-800 transition-all duration-300;
 }
 
 .card:hover {
