@@ -59,26 +59,28 @@ export default function Home() {
 
   const fetchData = async () => {
     try {
-      const [portfolioRes, testimonialsRes, servicesRes, settingsRes] = await Promise.all([
-        fetch('/api/portfolio?featured=true').catch(() => ({ ok: false })),
-        fetch('/api/testimonials?featured=true').catch(() => ({ ok: false })),
-        fetch('/api/services').catch(() => ({ ok: false })),
-        fetch('/api/settings').catch(() => ({ ok: false })),
+      const results = await Promise.all([
+        fetch('/api/portfolio?featured=true').catch(() => null),
+        fetch('/api/testimonials?featured=true').catch(() => null),
+        fetch('/api/services').catch(() => null),
+        fetch('/api/settings').catch(() => null),
       ]);
 
-      if (portfolioRes.ok) {
+      const [portfolioRes, testimonialsRes, servicesRes, settingsRes] = results;
+
+      if (portfolioRes?.ok) {
         const data = await portfolioRes.json();
         setPortfolioItems(Array.isArray(data) ? data : []);
       }
-      if (testimonialsRes.ok) {
+      if (testimonialsRes?.ok) {
         const data = await testimonialsRes.json();
         setTestimonials(Array.isArray(data) ? data : []);
       }
-      if (servicesRes.ok) {
+      if (servicesRes?.ok) {
         const data = await servicesRes.json();
-        setServices(Array.isArray(data) ? data : []);
+        setServices(Array.isArray(data) ? data : services);
       }
-      if (settingsRes.ok) {
+      if (settingsRes?.ok) {
         const data = await settingsRes.json();
         setSettings(data || {});
       }
