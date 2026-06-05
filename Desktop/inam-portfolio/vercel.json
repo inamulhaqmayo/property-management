@@ -1,0 +1,55 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "nodeVersion": "20.x",
+  "env": [
+    {
+      "key": "DATABASE_URL",
+      "description": "PostgreSQL connection string from Neon",
+      "value": ""
+    },
+    {
+      "key": "JWT_SECRET",
+      "description": "Secret key for JWT token signing",
+      "value": ""
+    },
+    {
+      "key": "SMTP_HOST",
+      "description": "SMTP server host for email (e.g., smtp.gmail.com)",
+      "value": "smtp.gmail.com"
+    },
+    {
+      "key": "SMTP_PORT",
+      "description": "SMTP server port",
+      "value": "587"
+    },
+    {
+      "key": "SMTP_USER",
+      "description": "SMTP username/email",
+      "value": ""
+    },
+    {
+      "key": "SMTP_PASSWORD",
+      "description": "SMTP password or app password",
+      "value": ""
+    },
+    {
+      "key": "SMTP_FROM",
+      "description": "Email address to send from",
+      "value": "noreply@inamulhaq.com"
+    },
+    {
+      "key": "ADMIN_EMAIL",
+      "description": "Email to receive contact form submissions",
+      "value": ""
+    },
+    {
+      "key": "NEXT_PUBLIC_APP_URL",
+      "description": "Your deployed application URL",
+      "value": ""
+    }
+  ],
+  "crons": []
+}
