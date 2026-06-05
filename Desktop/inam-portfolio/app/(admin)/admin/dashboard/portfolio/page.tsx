@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState, Suspense } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 interface PortfolioItem {
@@ -14,12 +14,11 @@ interface PortfolioItem {
   created_at?: string;
 }
 
-export default function AdminPortfolioPage() {
+function AdminPortfolioContent() {
   const [items, setItems] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     fetchPortfolioItems();
@@ -58,13 +57,13 @@ export default function AdminPortfolioPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-950">
+    <>
       {/* Header */}
-      <header className="bg-dark-900 border-b border-dark-800 sticky top-0 z-40">
+      <header className="bg-gray-900 border-b border-gray-800 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold">Portfolio Items</h1>
-            <p className="text-dark-muted text-sm">Manage your case studies and projects</p>
+            <p className="text-gray-400 text-sm">Manage your case studies and projects</p>
           </div>
           <div className="flex gap-4">
             <Link href="/admin/dashboard" className="btn btn-secondary text-sm">
@@ -81,13 +80,13 @@ export default function AdminPortfolioPage() {
       <main className="container mx-auto px-4 py-12">
         {loading ? (
           <div className="text-center py-12">
-            <p className="text-dark-muted">Loading portfolio items...</p>
+            <p className="text-gray-400">Loading portfolio items...</p>
           </div>
         ) : items.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-dark-800">
+                <tr className="border-b border-gray-800">
                   <th className="text-left py-3 px-4 font-semibold">Title</th>
                   <th className="text-left py-3 px-4 font-semibold">Category</th>
                   <th className="text-left py-3 px-4 font-semibold">Featured</th>
@@ -96,25 +95,25 @@ export default function AdminPortfolioPage() {
               </thead>
               <tbody>
                 {items.map((item) => (
-                  <tr key={item.id} className="border-b border-dark-800 hover:bg-dark-900/50">
+                  <tr key={item.id} className="border-b border-gray-800 hover:bg-gray-900/50">
                     <td className="py-4 px-4">
                       <div>
                         <p className="font-medium">{item.title}</p>
-                        <p className="text-dark-muted text-sm">{item.slug}</p>
+                        <p className="text-gray-400 text-sm">{item.slug}</p>
                       </div>
                     </td>
                     <td className="py-4 px-4">
-                      <span className="text-dark-muted text-sm">{item.category || '—'}</span>
+                      <span className="text-gray-400 text-sm">{item.category || '—'}</span>
                     </td>
                     <td className="py-4 px-4">
-                      <span className={`text-sm ${item.featured ? 'text-primary-500' : 'text-dark-muted'}`}>
+                      <span className={`text-sm ${item.featured ? 'text-cyan-500' : 'text-gray-400'}`}>
                         {item.featured ? '★' : '☆'}
                       </span>
                     </td>
                     <td className="py-4 px-4 flex gap-2">
                       <Link
                         href={`/admin/dashboard/portfolio/${item.id}`}
-                        className="text-primary-500 hover:text-primary-400 text-sm font-medium"
+                        className="text-cyan-500 hover:text-cyan-400 text-sm font-medium"
                       >
                         Edit
                       </Link>
@@ -132,13 +131,23 @@ export default function AdminPortfolioPage() {
           </div>
         ) : (
           <div className="text-center py-12 card">
-            <p className="text-dark-muted mb-4">No portfolio items yet.</p>
+            <p className="text-gray-400 mb-4">No portfolio items yet.</p>
             <Link href="/admin/dashboard/portfolio/new" className="btn btn-primary">
               Create Your First Project
             </Link>
           </div>
         )}
       </main>
+    </>
+  );
+}
+
+export default function AdminPortfolioPage() {
+  return (
+    <div className="min-h-screen bg-black">
+      <Suspense fallback={<div className="text-center py-12">Loading...</div>}>
+        <AdminPortfolioContent />
+      </Suspense>
     </div>
   );
 }
