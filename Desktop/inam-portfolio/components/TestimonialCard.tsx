@@ -19,18 +19,18 @@ export default function TestimonialCard({
   rating = 5,
 }: TestimonialCardProps) {
   return (
-    <div className="card">
+    <div className="bg-gray-900 rounded-lg p-6 border border-gray-800 hover:border-cyan-500 transition-all duration-300">
       {/* Rating */}
       <div className="flex gap-1 mb-4">
         {Array.from({ length: rating }).map((_, i) => (
-          <span key={i} className="text-primary-400">
+          <span key={i} className="text-cyan-400">
             ★
           </span>
         ))}
       </div>
 
       {/* Quote */}
-      <p className="text-dark-text mb-6 italic">
+      <p className="text-white mb-6 italic">
         "{quote}"
       </p>
 
@@ -44,12 +44,12 @@ export default function TestimonialCard({
           />
         )}
         <div>
-          <p className="font-semibold text-sm">{client_name}</p>
+          <p className="font-semibold text-sm text-white">{client_name}</p>
           {client_role && (
-            <p className="text-dark-muted text-xs">{client_role}</p>
+            <p className="text-gray-400 text-xs">{client_role}</p>
           )}
           {client_company && (
-            <p className="text-primary-500 text-xs font-medium">{client_company}</p>
+            <p className="text-cyan-500 text-xs font-medium">{client_company}</p>
           )}
         </div>
       </div>

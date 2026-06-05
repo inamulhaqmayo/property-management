@@ -78,23 +78,23 @@ export default function Home() {
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="section bg-gradient-to-br from-dark-900 to-dark-950 py-20 md:py-32">
-          <div className="container">
+        <section className="py-20 md:py-32 bg-gradient-to-br from-gray-900 to-black">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="mb-6 animate-fade-in">
-                <span className="gradient-text">
+              <h1 className="mb-6 text-4xl md:text-5xl lg:text-6xl font-bold">
+                <span className="bg-gradient-to-r from-cyan-400 to-cyan-500 bg-clip-text text-transparent">
                   {settings.headline || 'Build High-Converting Shopify Stores'}
                 </span>
               </h1>
-              <p className="text-lg md:text-xl text-dark-muted mb-8 max-w-2xl mx-auto animate-slide-up">
+              <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
                 {settings.bio ||
                   'Professional Shopify Developer with 9+ years of experience creating and optimizing eCommerce solutions that drive real results.'}
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
-                <Link href="/portfolio" className="btn btn-primary">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/portfolio" className="px-6 py-3 bg-cyan-500 text-white rounded-lg font-medium hover:bg-cyan-600 active:scale-95 transition-all duration-200">
                   View My Work
                 </Link>
-                <Link href="/contact" className="btn btn-outline">
+                <Link href="/contact" className="px-6 py-3 border-2 border-cyan-500 text-cyan-500 rounded-lg font-medium hover:bg-cyan-500 hover:text-white transition-all duration-200">
                   Let's Talk
                 </Link>
               </div>
@@ -103,15 +103,15 @@ export default function Home() {
         </section>
 
         {/* Services Section */}
-        <section className="section">
-          <div className="container">
-            <h2 className="text-center mb-12">Services I Offer</h2>
+        <section className="py-16 md:py-24 lg:py-32">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-center mb-12 text-3xl md:text-4xl font-bold">Services I Offer</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {services.slice(0, 4).map((service) => (
-                <div key={service.id} className="card text-center">
+                <div key={service.id} className="bg-gray-900 rounded-lg p-6 border border-gray-800 hover:border-cyan-500 transition-all duration-300 text-center">
                   {service.icon && <div className="text-4xl mb-4">{service.icon}</div>}
                   <h3 className="text-lg font-semibold mb-3">{service.title}</h3>
-                  <p className="text-dark-muted text-sm">{service.description}</p>
+                  <p className="text-gray-400 text-sm">{service.description}</p>
                 </div>
               ))}
             </div>
@@ -120,28 +120,26 @@ export default function Home() {
 
         {/* Featured Portfolio Section */}
         {portfolioItems.length > 0 && (
-          <section className="section bg-dark-900">
-            <div className="container">
+          <section className="py-16 md:py-24 lg:py-32 bg-gray-900">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="mb-12">
-                <h2 className="mb-4">Featured Projects</h2>
-                <p className="text-dark-muted max-w-2xl">
+                <h2 className="mb-4 text-3xl md:text-4xl font-bold">Featured Projects</h2>
+                <p className="text-gray-400 max-w-2xl">
                   Explore some of my recent Shopify optimization and development projects that delivered measurable results.
                 </p>
               </div>
 
-              {/* Responsive Slider */}
-              <div className="overflow-x-auto pb-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 min-w-max md:min-w-0">
-                  {portfolioItems.map((item) => (
-                    <div key={item.id} className="w-full md:w-auto">
-                      <PortfolioCard {...item} />
-                    </div>
-                  ))}
-                </div>
+              {/* Responsive Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {portfolioItems.map((item) => (
+                  <div key={item.id} className="w-full">
+                    <PortfolioCard {...item} />
+                  </div>
+                ))}
               </div>
 
               <div className="text-center mt-8">
-                <Link href="/portfolio" className="btn btn-secondary">
+                <Link href="/portfolio" className="px-6 py-3 bg-gray-800 text-white border border-gray-700 rounded-lg font-medium hover:bg-gray-700 transition-all duration-200">
                   View All Projects
                 </Link>
               </div>
@@ -150,22 +148,22 @@ export default function Home() {
         )}
 
         {/* Stats Section */}
-        <section className="section">
-          <div className="container">
+        <section className="py-16 md:py-24 lg:py-32">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div className="gradient-bg p-8 rounded-lg">
-                <h3 className="text-4xl font-bold text-primary-500 mb-2">
+              <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-8 rounded-lg">
+                <h3 className="text-4xl font-bold text-cyan-500 mb-2">
                   {settings.years_experience || '9'}+
                 </h3>
-                <p className="text-dark-muted">Years of Experience</p>
+                <p className="text-gray-400">Years of Experience</p>
               </div>
-              <div className="gradient-bg p-8 rounded-lg">
-                <h3 className="text-4xl font-bold text-primary-500 mb-2">50+</h3>
-                <p className="text-dark-muted">Shopify Stores Optimized</p>
+              <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-8 rounded-lg">
+                <h3 className="text-4xl font-bold text-cyan-500 mb-2">50+</h3>
+                <p className="text-gray-400">Shopify Stores Optimized</p>
               </div>
-              <div className="gradient-bg p-8 rounded-lg">
-                <h3 className="text-4xl font-bold text-primary-500 mb-2">30%</h3>
-                <p className="text-dark-muted">Avg. Performance Improvement</p>
+              <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-8 rounded-lg">
+                <h3 className="text-4xl font-bold text-cyan-500 mb-2">30%</h3>
+                <p className="text-gray-400">Avg. Performance Improvement</p>
               </div>
             </div>
           </div>
@@ -173,9 +171,9 @@ export default function Home() {
 
         {/* Testimonials Section */}
         {testimonials.length > 0 && (
-          <section className="section bg-dark-900">
-            <div className="container">
-              <h2 className="text-center mb-12">What Clients Say</h2>
+          <section className="py-16 md:py-24 lg:py-32 bg-gray-900">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h2 className="text-center mb-12 text-3xl md:text-4xl font-bold">What Clients Say</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {testimonials.slice(0, 3).map((testimonial) => (
                   <TestimonialCard key={testimonial.id} {...testimonial} />
@@ -186,13 +184,13 @@ export default function Home() {
         )}
 
         {/* CTA Section */}
-        <section className="section gradient-bg">
-          <div className="container text-center">
-            <h2 className="mb-6">Ready to Grow Your Shopify Store?</h2>
-            <p className="text-dark-muted text-lg mb-8 max-w-2xl mx-auto">
+        <section className="py-16 md:py-24 lg:py-32 bg-gradient-to-br from-cyan-500/10 to-cyan-500/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="mb-6 text-3xl md:text-4xl font-bold">Ready to Grow Your Shopify Store?</h2>
+            <p className="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
               Let's discuss how I can help optimize your store for better performance and increased conversions.
             </p>
-            <Link href="/contact" className="btn btn-primary">
+            <Link href="/contact" className="px-6 py-3 bg-cyan-500 text-white rounded-lg font-medium hover:bg-cyan-600 active:scale-95 transition-all duration-200">
               Get in Touch
             </Link>
           </div>

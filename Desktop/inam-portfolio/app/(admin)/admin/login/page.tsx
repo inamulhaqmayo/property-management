@@ -39,11 +39,11 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="card">
+    <div className="bg-gray-900 rounded-lg p-8 border border-gray-800">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold gradient-text mb-2">IUH</h1>
-        <h2 className="text-xl font-semibold">Admin Panel</h2>
-        <p className="text-dark-muted text-sm mt-2">Sign in to manage your portfolio</p>
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 bg-clip-text text-transparent mb-2">IUH</h1>
+        <h2 className="text-xl font-semibold text-white">Admin Panel</h2>
+        <p className="text-gray-400 text-sm mt-2">Sign in to manage your portfolio</p>
       </div>
 
       {error && (
@@ -55,7 +55,7 @@ export default function AdminLoginPage() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Email */}
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2">
+          <label htmlFor="email" className="block text-sm font-medium mb-2 text-white">
             Email
           </label>
           <input
@@ -64,14 +64,14 @@ export default function AdminLoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full bg-dark-800 border border-dark-700 rounded-lg px-4 py-3 text-white placeholder-dark-muted focus:outline-none focus:border-primary-500 transition-colors"
+            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
             placeholder="admin@example.com"
           />
         </div>
 
         {/* Password */}
         <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-2">
+          <label htmlFor="password" className="block text-sm font-medium mb-2 text-white">
             Password
           </label>
           <input
@@ -80,7 +80,7 @@ export default function AdminLoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full bg-dark-800 border border-dark-700 rounded-lg px-4 py-3 text-white placeholder-dark-muted focus:outline-none focus:border-primary-500 transition-colors"
+            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
             placeholder="Enter your password"
           />
         </div>
@@ -89,15 +89,15 @@ export default function AdminLoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-cyan-500 text-white hover:bg-cyan-600 active:scale-95 px-6 py-3 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
 
       {/* Footer */}
-      <div className="mt-8 pt-6 border-t border-dark-800 text-center">
-        <Link href="/" className="text-primary-500 hover:text-primary-400 text-sm font-medium">
+      <div className="mt-8 pt-6 border-t border-gray-800 text-center">
+        <Link href="/" className="text-cyan-500 hover:text-cyan-400 text-sm font-medium">
           ← Back to Home
         </Link>
       </div>

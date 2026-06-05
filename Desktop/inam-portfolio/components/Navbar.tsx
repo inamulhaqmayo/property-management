@@ -21,10 +21,10 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-dark-950 border-b border-dark-800 sticky top-0 z-50">
-      <div className="container flex justify-between items-center py-4">
+    <nav className="bg-black border-b border-gray-800 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold gradient-text">
+        <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 bg-clip-text text-transparent">
           IUH
         </Link>
 
@@ -36,8 +36,8 @@ export default function Navbar() {
               href={link.href}
               className={`text-sm font-medium transition-colors ${
                 isActive(link.href)
-                  ? 'text-primary-500'
-                  : 'text-dark-text hover:text-primary-500'
+                  ? 'text-cyan-500'
+                  : 'text-white hover:text-cyan-500'
               }`}
             >
               {link.label}
@@ -47,7 +47,7 @@ export default function Navbar() {
           {/* Dark/Light mode toggle */}
           <button
             onClick={() => setIsDark(!isDark)}
-            className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors"
+            className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors"
             aria-label="Toggle dark mode"
           >
             {isDark ? '☀️' : '🌙'}
@@ -56,7 +56,7 @@ export default function Navbar() {
           {/* Admin Login */}
           <Link
             href="/admin"
-            className="btn btn-primary text-sm"
+            className="px-6 py-3 bg-cyan-500 text-white rounded-lg font-medium hover:bg-cyan-600 transition-all duration-200 text-sm"
           >
             Admin
           </Link>
@@ -66,14 +66,14 @@ export default function Navbar() {
         <div className="md:hidden flex items-center gap-4">
           <button
             onClick={() => setIsDark(!isDark)}
-            className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700"
+            className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700"
             aria-label="Toggle dark mode"
           >
             {isDark ? '☀️' : '🌙'}
           </button>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700"
+            className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700"
             aria-label="Toggle menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,16 +85,16 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden border-t border-dark-800 bg-dark-900">
-          <div className="container py-4 flex flex-col gap-4">
+        <div className="md:hidden border-t border-gray-800 bg-gray-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col gap-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`text-sm font-medium transition-colors ${
                   isActive(link.href)
-                    ? 'text-primary-500'
-                    : 'text-dark-text hover:text-primary-500'
+                    ? 'text-cyan-500'
+                    : 'text-white hover:text-cyan-500'
                 }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -103,7 +103,7 @@ export default function Navbar() {
             ))}
             <Link
               href="/admin"
-              className="btn btn-primary text-sm text-center"
+              className="px-6 py-3 bg-cyan-500 text-white rounded-lg font-medium hover:bg-cyan-600 text-sm text-center transition-all duration-200"
               onClick={() => setIsOpen(false)}
             >
               Admin
