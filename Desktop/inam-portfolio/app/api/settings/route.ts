@@ -41,7 +41,7 @@ export async function PUT(request: NextRequest) {
         `INSERT INTO site_settings (setting_key, setting_value)
          VALUES ($1, $2)
          ON CONFLICT (setting_key) DO UPDATE SET setting_value = $2, updated_at = CURRENT_TIMESTAMP`,
-        [key, value]
+        [key, String(value)]
       );
     }
 
