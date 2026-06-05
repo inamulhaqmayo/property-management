@@ -5,10 +5,10 @@ import { getAuthCookie, verifyToken } from '@/lib/auth';
 // GET single portfolio item
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await Promise.resolve(params);
+    const { id } = await params;
 
     const result = await query(
       'SELECT * FROM portfolio_items WHERE id = $1 OR slug = $1',
@@ -35,7 +35,7 @@ export async function GET(
 // PUT update portfolio item (admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = await getAuthCookie();
@@ -47,7 +47,7 @@ export async function PUT(
       );
     }
 
-    const { id } = await Promise.resolve(params);
+    const { id } = await params;
     const {
       title,
       slug,
@@ -105,7 +105,7 @@ export async function PUT(
 // DELETE portfolio item (admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = await getAuthCookie();
@@ -117,7 +117,7 @@ export async function DELETE(
       );
     }
 
-    const { id } = await Promise.resolve(params);
+    const { id } = await params;
 
     const result = await query(
       'DELETE FROM portfolio_items WHERE id = $1 RETURNING *',

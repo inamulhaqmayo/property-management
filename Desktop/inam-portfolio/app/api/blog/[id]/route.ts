@@ -5,10 +5,10 @@ import { getAuthCookie, verifyToken } from '@/lib/auth';
 // GET single blog post
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await Promise.resolve(params);
+    const { id } = await params;
     const token = await getAuthCookie();
     const isAdmin = token && verifyToken(token);
 
@@ -47,7 +47,7 @@ export async function GET(
 // PUT update blog post (admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = await getAuthCookie();
@@ -59,7 +59,7 @@ export async function PUT(
       );
     }
 
-    const { id } = await Promise.resolve(params);
+    const { id } = await params;
     const { title, slug, content, excerpt, featured_image, published } = await request.json();
 
     const result = await query(
@@ -92,7 +92,7 @@ export async function PUT(
 // DELETE blog post (admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = await getAuthCookie();
@@ -104,7 +104,7 @@ export async function DELETE(
       );
     }
 
-    const { id } = await Promise.resolve(params);
+    const { id } = await params;
 
     const result = await query(
       'DELETE FROM blog_posts WHERE id = $1 RETURNING *',
